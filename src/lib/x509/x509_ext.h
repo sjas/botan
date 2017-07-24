@@ -412,18 +412,18 @@ class BOTAN_DLL Authority_Information_Access final : public Certificate_Extensio
    {
    public:
       Authority_Information_Access* copy() const override
-         { return new Authority_Information_Access(m_ocsp_responder); }
+         { return new Authority_Information_Access(m_ocsp_responder, m_ca_issuers); }
 
       Authority_Information_Access() = default;
 
-      explicit Authority_Information_Access(const std::string& ocsp) :
-         m_ocsp_responder(ocsp) {}
+      explicit Authority_Information_Access(const std::string& ocsp, const std::vector<std::string>& ca_issuers) :
+         m_ocsp_responder(ocsp), m_ca_issuers(ca_issuers) {}
 
    private:
       std::string oid_name() const override
          { return "PKIX.AuthorityInformationAccess"; }
 
-      bool should_encode() const override { return (!m_ocsp_responder.empty()); }
+      bool should_encode() const override { return (!m_ocsp_responder.empty() || !m_ca_issuers.empty()); }
 
       std::vector<uint8_t> encode_inner() const override;
       void decode_inner(const std::vector<uint8_t>&) override;
@@ -431,6 +431,7 @@ class BOTAN_DLL Authority_Information_Access final : public Certificate_Extensio
       void contents_to(Data_Store&, Data_Store&) const override;
 
       std::string m_ocsp_responder;
+      std::vector<std::string> m_ca_issuers;
    };
 
 /**

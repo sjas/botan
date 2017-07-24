@@ -112,11 +112,14 @@ BOTAN_REGISTER_COMMAND("cert_info", Cert_Info);
 class OCSP_Check final : public Command
    {
    public:
-      OCSP_Check() : Command("ocsp_check subject issuer") {}
+      OCSP_Check() : Command("ocsp_check --issuer= subject") {}
 
       void go() override
          {
          Botan::X509_Certificate subject(get_arg("subject"));
+
+         subject.
+
          Botan::X509_Certificate issuer(get_arg("issuer"));
 
          Botan::Certificate_Store_In_Memory cas;

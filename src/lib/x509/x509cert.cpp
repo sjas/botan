@@ -395,6 +395,12 @@ Extensions X509_Certificate::v3_extensions() const
    return m_v3_extensions;
    }
 
+std::string authority_ca_issuers() const
+   {
+   return m_subject.get1("OCSP.responder", "");
+   }
+
+
 std::string X509_Certificate::ocsp_responder() const
    {
    return m_subject.get1("OCSP.responder", "");

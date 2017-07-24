@@ -246,6 +246,11 @@ class BOTAN_DLL X509_Certificate : public X509_Object
       Extensions v3_extensions() const;
 
       /**
+      *
+      */
+      std::string authority_ca_issuers() const;
+
+      /**
       * Return the listed address of an OCSP responder, or empty if not set
       */
       std::string ocsp_responder() const;

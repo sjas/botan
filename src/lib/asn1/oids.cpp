@@ -134,6 +134,7 @@ std::string lookup(const OID& oid)
    if(oid_str == "1.3.6.1.5.5.7.3.8") return "PKIX.TimeStamping";
    if(oid_str == "1.3.6.1.5.5.7.3.9") return "PKIX.OCSPSigning";
    if(oid_str == "1.3.6.1.5.5.7.48.1") return "PKIX.OCSP";
+   if(oid_str == "1.3.6.1.5.5.7.48.2") return "PKIX.CAIssuers";
    if(oid_str == "1.3.6.1.5.5.7.48.1.1") return "PKIX.OCSP.BasicResponse";
    if(oid_str == "1.3.6.1.5.5.7.8.5") return "PKIX.XMPPAddr";
    if(oid_str == "2.16.840.1.101.3.4.1.2") return "AES-128/CBC";
@@ -300,6 +301,7 @@ OID lookup(const std::string& name)
    if(name == "PKIX.IPsecTunnel") return OID("1.3.6.1.5.5.7.3.6");
    if(name == "PKIX.IPsecUser") return OID("1.3.6.1.5.5.7.3.7");
    if(name == "PKIX.OCSP") return OID("1.3.6.1.5.5.7.48.1");
+   if(name == "PKIX.CAIssuers") return OID("1.3.6.1.5.5.7.48.2");
    if(name == "PKIX.OCSP.BasicResponse") return OID("1.3.6.1.5.5.7.48.1.1");
    if(name == "PKIX.OCSPSigning") return OID("1.3.6.1.5.5.7.3.9");
    if(name == "PKIX.ServerAuth") return OID("1.3.6.1.5.5.7.3.1");
