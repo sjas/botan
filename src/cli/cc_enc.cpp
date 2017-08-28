@@ -119,6 +119,25 @@ class CC_Encrypt final : public Command
    public:
       CC_Encrypt() : Command("cc_encrypt CC passphrase --tweak=") {}
 
+      std::string group() const override
+         {
+         return "misc";
+         }
+
+      std::string short_description() const override
+         {
+         return "Encrypt the passed valid credit card number using FPE encryption";
+         }
+
+      std::string long_description() const override
+         {
+         return "Encrypt the passed valid credit card number *CC* using FPE encryption "
+               "and the passphrase *passphrase*. The key is derived from the passphrase "
+               "using PBKDF2 with SHA-256. Due to the nature of FPE, the ciphertext is "
+               "also a credit card number with a valid checksum. *tweak* is public and "
+               "parameterizes the encryption function.";
+         }
+
       void go() override
          {
          const uint64_t cc_number = std::stoull(get_arg("CC"));
@@ -143,6 +162,22 @@ class CC_Decrypt final : public Command
    {
    public:
       CC_Decrypt() : Command("cc_decrypt CC passphrase --tweak=") {}
+
+      std::string group() const override
+         {
+         return "misc";
+         }
+
+      std::string short_description() const override
+         {
+         return "Decrypt the passed valid ciphertext credit card number using FPE decryption";
+         }
+
+      std::string long_description() const override
+         {
+         return "Decrypt the passed valid ciphertext CC using "
+               "FPE decryption with the passphrase *passphrase* and the tweak *tweak*";
+         }
 
       void go() override
          {

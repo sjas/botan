@@ -46,6 +46,21 @@ class TLS_Client final : public Command, public Botan::TLS::Callbacks
          stop_sockets();
          }
 
+      std::string group() const override
+         {
+         return "tls";
+         }
+
+      std::string short_description() const override
+         {
+         return "Connect to host using TLS/DTLS";
+         }
+
+      std::string long_description() const override
+         {
+         return "TODO";
+         }
+
       void go() override
          {
          // TODO client cert auth

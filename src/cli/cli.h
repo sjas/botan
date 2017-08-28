@@ -95,10 +95,14 @@ class Command
 
       std::string cmd_name() const;
 
+      virtual std::string group() const = 0;
+      virtual std::string short_description() const = 0;
+      virtual std::string long_description() const = 0;
+
    protected:
 
       /*
-      * The actual functionality of the cli command implemented in subclas.
+      * The actual functionality of the cli command implemented in subclass.
       * The return value from main will be zero.
       */
       virtual void go() = 0;
@@ -156,12 +160,11 @@ class Command
 
       Botan::RandomNumberGenerator& rng();
 
+      typedef std::function<Command* ()> cmd_maker_fn;
+      static std::map<std::string, cmd_maker_fn>& global_registry();
+
    private:
       void parse_spec();
-
-      typedef std::function<Command* ()> cmd_maker_fn;
-
-      static std::map<std::string, cmd_maker_fn>& global_registry();
 
       // set in constructor
       std::string m_spec;

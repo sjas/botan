@@ -19,6 +19,21 @@ class Modular_Inverse final : public Command
    public:
       Modular_Inverse() : Command("mod_inverse n mod") {}
 
+      std::string group() const override
+         {
+         return "numtheory";
+         }
+
+      std::string short_description() const override
+         {
+         return "Calculates a modular inverse";
+         }
+
+      std::string long_description() const override
+         {
+         return "Calculates the modular inverse of *n* in modulus *mod*.";
+         }
+
       void go() override
          {
          const Botan::BigInt n(get_arg("n"));
@@ -34,6 +49,21 @@ class Gen_Prime final : public Command
    {
    public:
       Gen_Prime() : Command("gen_prime --count=1 bits") {}
+
+      std::string group() const override
+         {
+         return "numtheory";
+         }
+
+      std::string short_description() const override
+         {
+         return "Samples one or more primes";
+         }
+
+      std::string long_description() const override
+         {
+         return "Samples *count* primes with a length of *bits* bits.";
+         }
 
       void go() override
          {
@@ -55,6 +85,22 @@ class Is_Prime final : public Command
    public:
       Is_Prime() : Command("is_prime --prob=56 n") {}
 
+      std::string group() const override
+         {
+         return "numtheory";
+         }
+
+      std::string short_description() const override
+         {
+         return "Test if the integer n is composite or prime";
+         }
+
+      std::string long_description() const override
+         {
+         return "Test if the integer n is composite or prime with a"
+               "Miller-Rabin primality test with (prob+2)/2 iterations.";
+         }
+
       void go() override
          {
          Botan::BigInt n(get_arg("n"));
@@ -75,6 +121,22 @@ class Factor final : public Command
    {
    public:
       Factor() : Command("factor n") {}
+
+      std::string group() const override
+         {
+         return "numtheory";
+         }
+
+      std::string short_description() const override
+         {
+         return "Factor a given integer";
+         }
+
+      std::string long_description() const override
+         {
+         return "Factor the integer n using a combination of"
+               "trial division by small primes, and Pollard’s Rho algorithm.";
+         }
 
       void go() override
          {

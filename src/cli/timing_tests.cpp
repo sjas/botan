@@ -346,6 +346,21 @@ class Timing_Test_Command final : public Command
          : Command("timing_test test_type --test-data-file= --test-data-dir=src/tests/data/timing "
                    "--warmup-runs=1000 --measurement-runs=10000") {}
 
+      std::string group() const override
+         {
+         return "misc";
+         }
+
+      std::string short_description() const override
+         {
+         return "Run various timing side channel tests";
+         }
+
+      std::string long_description() const override
+         {
+         return short_description();
+         }
+
       void go() override
          {
          const std::string test_type = get_arg("test_type");

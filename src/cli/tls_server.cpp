@@ -36,6 +36,21 @@ class TLS_Server final : public Command, public Botan::TLS::Callbacks
          stop_sockets();
          }
 
+      std::string group() const override
+         {
+         return "tls";
+         }
+
+      std::string short_description() const override
+         {
+         return "Accept TLS/DTLS connections from TLS/DTLS clients";
+         }
+
+      std::string long_description() const override
+         {
+         return "TODO";
+         }
+
       void go() override
          {
          const std::string server_crt = get_arg("cert");
