@@ -82,6 +82,8 @@ class Command
       */
       explicit Command(const std::string& cmd_spec);
 
+      explicit Command(const std::map<std::string, std::string>& cmd_spec);
+
       virtual ~Command();
 
       int run(const std::vector<std::string>& params);
@@ -168,6 +170,7 @@ class Command
 
       // set in constructor
       std::string m_spec;
+      std::map<std::string, std::string> m_adv_spec;
 
       std::unique_ptr<Argument_Parser> m_args;
       std::unique_ptr<std::ostream> m_output_stream;

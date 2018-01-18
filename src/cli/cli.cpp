@@ -10,6 +10,7 @@
 #include <botan/parsing.h>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 namespace Botan_CLI {
 
@@ -17,6 +18,19 @@ Command::Command(const std::string& cmd_spec) : m_spec(cmd_spec)
    {
    // for checking all spec strings at load time
    //m_args.reset(new Argument_Parser(m_spec));
+   auto opts = Botan::split_on(m_spec, ' ');
+   for(size_t i=1; i < opts.size(); ++i)
+      {
+      m_adv_spec[opts[i]] = "";
+      }
+   }
+
+Command::Command(const std::map<std::string, std::string>& cmd_spec) : m_adv_spec(cmd_spec)
+   {
+   for(const auto& cmd : cmd_spec)
+      {
+      m_spec += cmd.first + ' ';
+      }
    }
 
 Command::~Command() { /* for unique_ptr */ }
@@ -28,7 +42,43 @@ std::string Command::cmd_name() const
 
 std::string Command::help_text() const
    {
-   return "Usage: " + m_spec;
+   // TODO pretty-print m_spec
+   std::stringstream help;
+
+   auto all_args = Botan::split_on(m_spec, ' ');
+   all_args.erase(all_args.begin()); // remove cmd_name
+
+   std::vector<std::string> opts, args; // TODO map
+   for(const auto& arg : all_args)
+      {
+      if(arg.find("--") != std::string::npos)
+         {
+         opts.push_back(arg);
+         }
+      else
+         {
+         args.push_back(arg);
+         }
+      }
+
+   help << "Usage: " << cmd_name();
+   if(!opts.empty())
+      {
+      help << " [options]";
+      }
+   help << " " << Botan::string_join(args, ' ') << "\n\n";
+   help << description() << "\n";
+
+   if(!opts.empty())
+      {
+      help << "\n" << "Options:" << "\n";
+      for(const auto& opt : opts)
+         {
+         help << "  " << opt << "\n";
+         }
+      }
+
+   return help.str();
    }
 
 int Command::run(const std::vector<std::string>& params)
@@ -67,7 +117,7 @@ int Command::run(const std::vector<std::string>& params)
 
       if(flag_set("help"))
          {
-         output() << help_text() << "\n";
+         output() << "\n" << help_text() << "\n";
          return 2;
          }
 
@@ -76,6 +126,12 @@ int Command::run(const std::vector<std::string>& params)
       }
    catch(CLI_Usage_Error& e)
       {
+      if(flag_set("help"))
+         {
+         output() << "\n" << help_text() << "\n";
+         return 2;
+         }
+
       error_output() << "Usage error: " << e.what() << "\n";
       error_output() << help_text() << "\n";
       return 1;
